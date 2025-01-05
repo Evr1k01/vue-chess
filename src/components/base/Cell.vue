@@ -1,5 +1,5 @@
 <template>
-  <div :class="cellClass" @click="setCell">
+  <div :class="cellClass" @click="setCell" :style="{ background: cell.figure && cell.available ? 'green' : '' }">
     <template v-if="cell.figure">
       <img :src="cell.figure.logo" :alt="cell.figure.name">
     </template>
@@ -11,32 +11,39 @@
 
 <script lang="ts">
 import {Cell} from "@/components/Cell";
-import {computed, toRef} from "vue";
+import {computed, PropType, toRef} from "vue";
 
 export default {
   name: "CellComponent",
   props: {
-    cell: Cell,
-    selected: Boolean
+    cell: Object as PropType<Cell>,
+    selected: Boolean,
+    currentSelected: Object as PropType<Cell>
   },
   emits: ['setSelectedCell'],
 
   setup(props, context) {
 
     const cell = toRef(props, 'cell')
-    const selected = toRef(props, 'selected')
+    const isSelected = toRef(props, 'selected')
+    const currentSelected = toRef(props, 'currentSelected')
 
     const cellClass = computed((): string => {
-      return `cell ${selected.value ? 'selected' : ''} ${cell.value?.color}`;
+      return `cell ${isSelected.value ? 'selected' : ''} ${cell.value?.color}`;
     });
 
     const setCell = () => {
-      context.emit('setSelectedCell', cell.value)
+      if (currentSelected.value && currentSelected.value !== cell.value && currentSelected.value.figure?.canMoveFigure(cell.value as Cell)) {
+        currentSelected.value?.moveFigure(cell.value)
+        context.emit('setSelectedCell', null)
+      } else {
+        context.emit('setSelectedCell', cell.value)
+      }
     }
 
     return {
       cellClass,
-      setCell
+      setCell,
     }
   }
 }

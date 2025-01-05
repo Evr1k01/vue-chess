@@ -6,6 +6,29 @@
     align-items: center;
 }
 
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f4f4f9;
+    font-family: 'Arial', sans-serif;
+}
+
+.current-player {
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.current-player .player-white {
+    color: #007bff;
+}
+
+.current-player .player-black {
+    color: #333;
+}
+
 .board {
     width: calc(64px * 8);
     height: calc(64px * 8);
@@ -28,7 +51,7 @@
 }
 
 .selected {
-    background-color: yellow !important;
+    background-color: darkred !important;
 }
 
 .available {
@@ -44,4 +67,34 @@
 
 .black {
     background-color: saddlebrown;
+}
+
+.lost-figures {
+    width: 200px;
+    height: 200px;
+    padding: 15px;
+    margin: 1rem;
+    background-color: #e8e8e8;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.lost-figures h3 {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.figures-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+/* Каждый div с фигурой */
+.figures-container > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
